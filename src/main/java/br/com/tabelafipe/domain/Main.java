@@ -2,11 +2,15 @@ package br.com.tabelafipe.domain;
 
 import br.com.tabelafipe.model.DadosDTO;
 import br.com.tabelafipe.model.ModelosDTO;
+import br.com.tabelafipe.model.VeiculoDTO;
 import br.com.tabelafipe.service.ConsumoApi;
 import br.com.tabelafipe.service.ConverteDados;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -53,8 +57,33 @@ public class Main {
                 .sorted(Comparator.comparing(DadosDTO::codigo))
                 .forEach(System.out::println);
 
-        System.out.println("Digite o veículo que deseja buscae: ");
+        System.out.println("Digite o veículo que deseja buscar: ");
         var nome = scanner.nextLine();
+
+        List<DadosDTO> modelosFiltrados = modeloLista.modelos().stream()
+                .filter(m -> m.nome().toLowerCase().contains(nome.toLowerCase()))
+                .collect(Collectors.toList());
+
+        System.out.println("Modelos filtrados: ");
+        modelosFiltrados.forEach(System.out::println);
+
+        System.out.println("Digite o código do modelo que deseja ver:");
+        var codigoModelo = scanner.nextLine();
+        complementoENDERECO = complementoENDERECO + "/" + codigoModelo + "/anos";
+        json = consumoApi.obterDados(complementoENDERECO);
+        List<DadosDTO> anos = conversor.obterLista(json, DadosDTO.class);
+
+        List<VeiculoDTO> listaVeiculos = new ArrayList<>();
+
+        for (int i = 0; i < anos.size(); i++) {
+            var enderecoAnos = complementoENDERECO + "/" + anos.get(i).codigo();
+            json = consumoApi.obterDados(enderecoAnos);
+            VeiculoDTO veiculoDTO = conversor.obterDados(json, VeiculoDTO.class);
+            listaVeiculos.add(veiculoDTO);
+        }
+
+        System.out.println("\nVeículos filtrados com avaliação por anos:");
+        listaVeiculos.forEach(System.out::println);
 
     }
 }
