@@ -58,21 +58,21 @@ Endpoints principais:
 ---
 
 ## 📂 Estrutura do projeto
-br.com.tabelafipe
-│
-├── domain
-│ └── Main.java
-│
-├── model
-│ ├── DadosDTO.java
-│ ├── ModelosDTO.java
-│ └── VeiculoDTO.java
-│
-├── service
-│ ├── ConsumoApi.java
-│ └── ConverteDados.java
+```text
+📦 br.com.tabelafipe
+ ┣ 📂 domain
+ ┃ ┗ 📄 Main.java
+ ┣ 📂 model
+ ┃ ┣ 📄 DadosDTO.java
+ ┃ ┣ 📄 ModelosDTO.java
+ ┃ ┗ 📄 VeiculoDTO.java
+ ┗ 📂 service
+   ┣ 📄 ConsumoApi.java
+   ┗ 📄 ConverteDados.java
+```
 
 ## 🔄 Fluxo da aplicação
+```text
 Usuário escolhe veículo
 ↓
 Busca marcas na API
@@ -90,7 +90,7 @@ Busca anos
 Busca dados do veículo
 ↓
 Exibe resultado final
-
+```
 
 ---
 
